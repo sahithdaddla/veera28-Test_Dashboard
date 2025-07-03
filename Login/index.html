@@ -223,7 +223,7 @@
                   event.preventDefault();
 
                   try {
-                      const response = await fetch('http://localhost:3000/api/login', {
+                      const response = await fetch('http://16.171.144.225:8083/api/login', {
                           method: 'POST',
                           headers: { 'Content-Type': 'application/json' },
                           credentials: 'include',
@@ -241,7 +241,7 @@
                       }                      
 
                       console.log('Login successful, redirecting to dashboard');
-                      window.location.href = 'http://localhost:3000/dashboard'; 
+                      window.location.href = 'http://16.171.144.225:8083/dashboard'; 
                   } catch (error) {
                       console.error('Login error:', error);
                       alert(error.message);
