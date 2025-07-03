@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            padding-top: 70px;
+        }
+
+        .background-half {
+            flex: 1;
+            background-image: url('https://th.bing.com/th/id/OIP.L_Iq2oSnC9ft5CuSFA0D_QHaHa?rs=1&pid=ImgDetMain');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .signup-half {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .signup-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .signup-container h2 {
+            margin-bottom: 1rem;
+            color: blue;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .signup-container label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .signup-container label i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+
+        .signup-container input {
+            width: 96%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            margin-bottom: 0.5rem;
+        }
+
+        .signup-container input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .signup-container button {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(to right, black, blue);
+            color: white;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+
+        .signup-container button:hover {
+            background-color: #ff6f61;
+        }
+
+        .signup-container a {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #0b0b0b;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .signup-container a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+            text-align: left;
+            margin-top: -0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .fingerprint-section {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .fingerprint-verified {
+            color: green !important;
+        }
+
+        .password-strength {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header style="position: fixed; top: 0; width: 100%; background: linear-gradient(to right, #000000, #1a237e); color: white; padding: 1rem 2rem; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000;">
+        <div style="text-align: center;">
+            <h1 style="margin: 0; font-size: 1.5rem; font-weight: 600;">Signup-form</h1>
+            <p style="margin: 0.25rem 0 0 0; font-size: 0.9rem;">"Secure user registration system"</p>
+        </div>
+    </header>
+    <div class="background-half"></div>
+    <div class="signup-half">
+        <div class="signup-container">
+            <h2>Create an Account</h2>
+            <form id="signup-form" enctype="multipart/form-data">
+                <label for="name"><i class="fas fa-user"></i> User Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your display name" required maxlength="30">
+                <p class="error-message" id="name-error"></p>
+
+                <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required maxlength="100">
+                <p class="error-message" id="email-error"></p>
+
+                <label for="password"><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a password" required minlength="8" maxlength="30">
+                <p class="error-message" id="password-error"></p>
+                <div class="password-strength">
+                    <div id="strengthText"></div>
+                </div>
+
+                <label for="confirm-password"><i class="fas fa-lock"></i> Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" maxlength="30" required>
+                <p class="error-message" id="confirm-password-error"></p>
+
+                <label for="profile-picture"><i class="fas fa-image"></i> Profile Picture</label>
+                <input type="file" id="profile-picture" name="profilePicture" accept="image/jpeg,image/png,image/jpg,image/gif" required>
+                <p class="error-message" id="profile-picture-error"></p>
+
+                <div class="fingerprint-section">
+                    <i class="fas fa-fingerprint fingerprint-icon" id="fingerprint-icon" 
+                       style="font-size: 50px; margin-left: 50%; margin-bottom: 20px; transform: translateX(-50%);"
+                       title="Click to authenticate with fingerprint"></i>
+                    <p class="error-message" id="fingerprint-error"></p>
+                </div>
+
+                <button type="submit">Sign Up</button>
+            </form>
+
+            <a href="../Login/index.html">Already have an account? Sign In</a>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('signup-form');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const profilePictureInput = document.getElementById('profile-picture');
+        const fingerprintIcon = document.getElementById('fingerprint-icon');
+
+        const nameError = document.getElementById('name-error');
+        const emailError = document.getElementById('email-error');
+        const passwordError = document.getElementById('password-error');
+        const confirmPasswordError = document.getElementById('confirm-password-error');
+        const profilePictureError = document.getElementById('profile-picture-error');
+        const fingerprintError = document.getElementById('fingerprint-error');
+
+        const strengthText = document.getElementById('strengthText');
+
+        let isFingerPrintVerified = false;
+
+        nameInput.addEventListener('input', function () {
+            nameError.textContent = validateName();
+        });
+
+        emailInput.addEventListener('input', function () {
+            emailError.textContent = validateEmail();
+        });
+
+        passwordInput.addEventListener('input', function () {
+            passwordError.textContent = validatePassword();
+            updatePasswordStrength(passwordInput.value);
+        });
+
+        confirmPasswordInput.addEventListener('input', function () {
+            confirmPasswordError.textContent = validateConfirmPassword();
+        });
+
+        profilePictureInput.addEventListener('change', function () {
+            validateProfilePicture();
+        });
+
+        fingerprintIcon.addEventListener('click', function () {
+            alert("Fingerprint authentication initiated. Please place your finger on the sensor.");
+
+            setTimeout(() => {
+                isFingerPrintVerified = true;
+                fingerprintIcon.classList.add('fingerprint-verified');
+                fingerprintError.textContent = '';
+                alert("Fingerprint verified successfully!");
+            }, 1000);
+        });
+
+        form.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            
+            // Clear previous errors
+            [nameError, emailError, passwordError, confirmPasswordError, profilePictureError, fingerprintError].forEach(el => el.textContent = '');
+
+            // Validate all fields
+            const validations = [
+                validateName(),
+                validateEmail(),
+                validatePassword(),
+                validateConfirmPassword(),
+                validateProfilePicture()
+            ];
+
+            if (validations.some(msg => msg !== '')) {
+                return; // Validation errors will be shown by the validate functions
+            }
+
+            if (!isFingerPrintVerified) {
+                fingerprintError.textContent = 'Please verify your fingerprint.';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('name', nameInput.value.trim());
+            formData.append('email', emailInput.value.trim());
+            formData.append('password', passwordInput.value);
+
+            if (profilePictureInput.files[0]) {
+                formData.append('profilePicture', profilePictureInput.files[0]);
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/api/signup', {
+                    method: 'POST',
+                    credentials: 'include', // Important for cookies
+                    body: formData
+                });
+
+                const result = await response.json();
+                console.log('Server response:', result);
+
+                if (!response.ok) {
+                    if (result.error) {
+                        if (result.error.includes('Email')) {
+                            emailError.textContent = result.error;
+                        } else {
+                            alert(result.error);
+                        }
+                    } else {
+                        alert('Signup failed. Please try again.');
+                    }
+                    return;
+                }
+
+                // Show success message
+                alert('Signup successful! Redirecting to Login page...');
+                
+                // Redirect to login page after successful signup
+                window.location.href = '../Login/index.html';
+                
+            } catch (error) {
+                console.error('Signup request failed:', error);
+                alert('Signup failed. Please check your connection and try again.');
+            }
+        });
+
+        function updatePasswordStrength(password) {
+            const errors = [];
+
+            if (password.length < 8) {
+                errors.push("Password must be at least 8 characters long.");
+            }
+            if (!/[A-Z]/.test(password)) {
+                errors.push("Password must contain at least one uppercase letter.");
+            }
+            if (!/[a-z]/.test(password)) {
+                errors.push("Password must contain at least one lowercase letter.");
+            }
+            if (!/[0-9]/.test(password)) {
+                errors.push("Password must contain at least one number.");
+            }
+            if (!/[^A-Za-z0-9]/.test(password)) {
+                errors.push("Password must contain at least one special character.");
+            }
+
+            if (errors.length > 0) {
+                strengthText.innerHTML = `<strong style="color:red;">Weak:</strong><ul>` +
+                    errors.map(err => `<li>${err}</li>`).join("") + `</ul>`;
+            } else {
+                strengthText.innerHTML = `<strong style="color:green;">Strong password!</strong>`;
+            }
+        }
+
+        function validateName() {
+            const name = nameInput.value.trim();
+            if (name === '') {
+                return 'Display name cannot be empty.';
+            }
+            return '';
+        }
+
+        function validateEmail() {
+            const email = emailInput.value.trim();
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            if (!emailPattern.test(email)) {
+                return 'Please enter a valid email address (e.g., example@domain.com).';
+            }
+
+            return '';
+        }
+
+        function validatePassword() {
+            const password = passwordInput.value;
+
+            if (password.length < 8) {
+                return 'Password must be at least 8 characters long.';
+            }
+
+            return '';
+        }
+
+        function validateConfirmPassword() {
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            if (confirmPassword !== password) {
+                return 'Passwords do not match.';
+            }
+
+            return '';
+        }
+
+        function validateProfilePicture() {
+            if (profilePictureInput.files.length === 0) {
+                return 'Please upload a profile picture.';
+            }
+
+            const file = profilePictureInput.files[0];
+            const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+
+            if (!validImageTypes.includes(file.type)) {
+                return 'Invalid file type. Please upload an image file (JPEG, PNG, JPG, GIF).';
+            }
+
+            return '';
+        }
+    });
+    </script>
+</body>
+</html>

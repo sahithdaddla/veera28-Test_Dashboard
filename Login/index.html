@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRMS Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Login Page Styles */
+        .login-container {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            padding-top: 70px;
+            transition: all 0.5s ease;
+        }
+
+        .background-half {
+            flex: 1;
+            background-image: url('https://th.bing.com/th/id/OIP.L_Iq2oSnC9ft5CuSFA0D_QHaHa?rs=1&pid=ImgDetMain');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .signin-half {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .signin-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .signin-container h2 {
+            margin-bottom: 1rem;
+            color: blue;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .signin-container label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .signin-container label i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+
+        .signin-container input {
+            width: 96%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            margin-bottom: 0.5rem;
+        }
+
+        .signin-container input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .signin-container button {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(to right, black, blue);
+            color: white;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+
+        .signin-container button:hover {
+            background-color: #ff6f61;
+        }
+
+        .signin-container a {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #0b0b0b;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .signin-container a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+            text-align: left;
+            margin-top: -0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .options-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 0.5rem;
+        }
+
+        /* Header for login page */
+        .login-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(to right, #000000, #1a237e);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .login-header div {
+            text-align: center;
+        }
+
+        .login-header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .login-header p {
+            margin: 0.25rem 0 0 0;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+
+  <body>
+      <div id="login-page" class="login-container">
+          <header class="login-header">
+              <div>
+                  <h1>Login System</h1>
+                  <p>"Secure authentication with email and password"</p>
+              </div>
+          </header>
+          <div class="background-half"></div>
+          <div class="signin-half">
+              <div class="signin-container">
+                  <h2>Sign In</h2>
+                  <form id="signin-form">
+                      <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                      <input type="email" id="email" name="email" placeholder="Enter your email" required maxlength="100">
+                      <p class="error-message" id="email-error"></p>
+
+                      <label for="password"><i class="fas fa-lock"></i> Password</label>
+                      <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                      <p class="error-message" id="password-error"></p>
+
+                      <div class="options-container">
+                          <div class="remember-me">
+                              <input type="checkbox" id="remember" name="remember">
+                              <label for="remember">Remember Me</label>
+                          </div>
+                          <a href="../Forgot/index.html">Forgot Password?</a>
+                      </div>
+
+                      <button type="submit">Sign In</button>
+                  </form>
+
+                  <p style="text-align: center;">Don't have an account? <a href="../Sign/index.html">Sign Up</a></p>
+              </div>
+          </div>
+      </div>
+
+      <script>
+          document.addEventListener('DOMContentLoaded', function () {
+              const form = document.getElementById('signin-form');
+              const emailInput = document.getElementById('email');
+              const passwordInput = document.getElementById('password');
+              const rememberMeInput = document.getElementById('remember');
+              const emailError = document.getElementById('email-error');
+              const passwordError = document.getElementById('password-error');
+
+              emailInput.addEventListener('input', function () {
+                  emailError.textContent = validateEmail();
+              });
+
+              passwordInput.addEventListener('input', function () {
+                  passwordError.textContent = validatePassword();
+              });
+
+              form.addEventListener('submit', async function (event) {
+                  event.preventDefault();
+
+                  try {
+                      const response = await fetch('http://localhost:3000/api/login', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          credentials: 'include',
+                          body: JSON.stringify({
+                              email: emailInput.value.trim(),
+                              password: passwordInput.value,
+                              rememberMe: rememberMeInput.checked
+                          })
+                      });
+
+                      const result = await response.json();
+
+                      if (!response.ok) {
+                          throw new Error(result.error || 'Login failed');
+                      }                      
+
+                      console.log('Login successful, redirecting to dashboard');
+                      window.location.href = 'http://localhost:3000/dashboard'; 
+                  } catch (error) {
+                      console.error('Login error:', error);
+                      alert(error.message);
+                  }
+              });
+
+              function validateEmail() {
+                  const email = emailInput.value.trim();
+                  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                  if (!emailPattern.test(email)) {
+                      return 'Please enter a valid email address.';
+                  }
+                  return '';
+              }
+
+              function validatePassword() {
+                  const password = passwordInput.value;
+                  if (password.length < 8) {
+                      return 'Password must be at least 8 characters long.';
+                  }
+                  return '';
+              }
+          });
+      </script>
+  </body>
+
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            padding-top: 70px;
+        }
+
+        .background-half {
+            flex: 1;
+            background-image: url('https://cdn0.iconfinder.com/data/icons/web-illustrations-2/600/199-512.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .signup-half {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .signup-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .signup-container h2 {
+            margin-bottom: 1rem;
+            color: blue;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .signup-container label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .signup-container label i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+
+        .signup-container input {
+            width: 96%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            margin-bottom: 0.5rem;
+        }
+
+        .signup-container input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .signup-container button {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(to right, black, blue);
+            color: white;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+
+        .signup-container button:hover {
+            background-color: #ff6f61;
+        }
+
+        .signup-container a {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #0b0b0b;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .signup-container a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+            text-align: left;
+            margin-top: -0.5rem;
+            margin-bottom: 0.5rem;
+            display: none;
+        }
+
+        .success-message {
+            color: green;
+            font-size: 0.9rem;
+            text-align: center;
+            margin: 1rem 0;
+            display: none;
+        }
+        
+        .password-container {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            color: #555;
+        }
+        
+        .password-strength {
+            height: 4px;
+            background: #eee;
+            margin-bottom: 10px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .strength-meter {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s ease;
+        }
+        
+        .password-requirements {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .requirement {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3px;
+        }
+        
+        .requirement i {
+            margin-right: 5px;
+            font-size: 0.7rem;
+        }
+        
+        .valid {
+            color: green;
+        }
+        
+        .invalid {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header style="position: fixed; top: 0; width: 100%; background: linear-gradient(to right, #000000, #1a237e); color: white; padding: 1rem 2rem; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000;">
+        <div style="text-align: center;">
+            <h1 style="margin: 0; font-size: 1.5rem; font-weight: 600;">Password Recovery</h1>
+            <p style="margin: 0.25rem 0 0 0; font-size: 0.9rem;">"Reset your account password"</p>
+        </div>
+    </header>
+    
+    <div class="background-half"></div>
+    <div class="signup-half">
+        <div class="signup-container">
+            <h2>Forgot Password</h2>
+            <form id="forgotPasswordForm">
+                <label for="resetEmail"><i class="fas fa-envelope"></i> Email Address</label>
+                <input type="email" id="resetEmail" name="resetEmail" placeholder="Enter your registered email" required>
+                <p class="error-message" id="resetEmailError"></p>
+                
+                <label for="newPassword"><i class="fas fa-lock"></i> New Password</label>
+                <div class="password-container">
+                    <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password" required>
+                    <i class="fas fa-eye toggle-password" id="toggleNewPassword"></i>
+                </div>
+                <div class="password-strength">
+                    <div class="strength-meter" id="passwordStrength"></div>
+                </div>
+                <div class="password-requirements">
+                    <div class="requirement" id="lengthReq"><i class="fas fa-circle"></i> At least 8 characters</div>
+                    <div class="requirement" id="upperReq"><i class="fas fa-circle"></i> At least 1 uppercase letter</div>
+                    <div class="requirement" id="lowerReq"><i class="fas fa-circle"></i> At least 1 lowercase letter</div>
+                    <div class="requirement" id="numberReq"><i class="fas fa-circle"></i> At least 1 number</div>
+                    <div class="requirement" id="specialReq"><i class="fas fa-circle"></i> At least 1 special character</div>
+                </div>
+                <p class="error-message" id="newPasswordError"></p>
+                
+                <label for="confirmPassword"><i class="fas fa-lock"></i> Confirm Password</label>
+                <div class="password-container">
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your new password" required>
+                    <i class="fas fa-eye toggle-password" id="toggleConfirmPassword"></i>
+                </div>
+                <p class="error-message" id="confirmPasswordError"></p>
+                
+                <button type="submit">Reset Password</button>
+                
+                <p class="success-message" id="resetSuccess"></p>
+            </form>
+            
+            <a href="http://98.80.67.100:9038/">Back to Sign In</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+            const newPasswordInput = document.getElementById('newPassword');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const toggleNewPassword = document.getElementById('toggleNewPassword');
+            const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+            
+            const passwordStrength = document.getElementById('passwordStrength');
+            const lengthReq = document.getElementById('lengthReq');
+            const upperReq = document.getElementById('upperReq');
+            const lowerReq = document.getElementById('lowerReq');
+            const numberReq = document.getElementById('numberReq');
+            const specialReq = document.getElementById('specialReq');
+            
+            function validateEmail(email) {
+                const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                return re.test(email);
+            }
+            
+            function checkPasswordStrength(password) {
+                lengthReq.className = 'requirement';
+                upperReq.className = 'requirement';
+                lowerReq.className = 'requirement';
+                numberReq.className = 'requirement';
+                specialReq.className = 'requirement';
+                
+                let strength = 0;
+                let totalRequirements = 0;
+                let metRequirements = 0;
+                
+                if (password.length >= 8) {
+                    lengthReq.className = 'requirement valid';
+                    strength += 20;
+                    metRequirements++;
+                }
+                totalRequirements++;
+                
+                if (/[A-Z]/.test(password)) {
+                    upperReq.className = 'requirement valid';
+                    strength += 20;
+                    metRequirements++;
+                }
+                totalRequirements++;
+                
+                if (/[a-z]/.test(password)) {
+                    lowerReq.className = 'requirement valid';
+                    strength += 20;
+                    metRequirements++;
+                }
+                totalRequirements++;
+                
+                if (/[0-9]/.test(password)) {
+                    numberReq.className = 'requirement valid';
+                    strength += 20;
+                    metRequirements++;
+                }
+                totalRequirements++;
+                
+                if (/[^A-Za-z0-9]/.test(password)) {
+                    specialReq.className = 'requirement valid';
+                    strength += 20;
+                    metRequirements++;
+                }
+                totalRequirements++;
+                
+                passwordStrength.style.width = strength + '%';
+                
+                if (strength < 40) {
+                    passwordStrength.style.backgroundColor = '#ef233c';
+                } else if (strength < 80) {
+                    passwordStrength.style.backgroundColor = '#ffaa00';
+                } else {
+                    passwordStrength.style.backgroundColor = '#38b000';
+                }
+                
+                return metRequirements === totalRequirements;
+            }
+            
+            toggleNewPassword.addEventListener('click', function() {
+                const type = newPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                newPasswordInput.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+            
+            toggleConfirmPassword.addEventListener('click', function() {
+                const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                confirmPasswordInput.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+            
+            newPasswordInput.addEventListener('input', function() {
+                checkPasswordStrength(this.value);
+            });
+            
+            forgotPasswordForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('resetEmail').value.trim();
+                const newPassword = newPasswordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+                
+                const emailError = document.getElementById('resetEmailError');
+                const newPasswordError = document.getElementById('newPasswordError');
+                const confirmPasswordError = document.getElementById('confirmPasswordError');
+                const successMessage = document.getElementById('resetSuccess');
+                
+                emailError.style.display = 'none';
+                newPasswordError.style.display = 'none';
+                confirmPasswordError.style.display = 'none';
+                successMessage.style.display = 'none';
+                
+                let isValid = true;
+                
+                if (!validateEmail(email)) {
+                    emailError.textContent = 'Please enter a valid email address';
+                    emailError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                if (newPassword.length < 8) {
+                    newPasswordError.textContent = 'Password must be at least 8 characters';
+                    newPasswordError.style.display = 'block';
+                    isValid = false;
+                } else if (!checkPasswordStrength(newPassword)) {
+                    newPasswordError.textContent = 'Password does not meet all requirements';
+                    newPasswordError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                if (newPassword !== confirmPassword) {
+                    confirmPasswordError.textContent = 'Passwords do not match';
+                    confirmPasswordError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                if (isValid) {
+                    try {
+                        const response = await fetch('http://localhost:3000/api/forgot-password', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ email, newPassword, confirmPassword })
+                        });
+
+                        const result = await response.json();
+
+                        if (!response.ok) {
+                            if (result.error.includes('Email')) {
+                                emailError.textContent = result.error;
+                                emailError.style.display = 'block';
+                            } else if (result.error.includes('Password')) {
+                                newPasswordError.textContent = result.error;
+                                newPasswordError.style.display = 'block';
+                            } else {
+                                alert(result.error);
+                            }
+                            return;
+                        }
+
+                        successMessage.textContent = result.message;
+                        successMessage.style.display = 'block';
+                        
+                        document.getElementById('resetEmail').value = '';
+                        newPasswordInput.value = '';
+                        confirmPasswordInput.value = '';
+                        
+                        passwordStrength.style.width = '0';
+                        passwordStrength.style.backgroundColor = '#eee';
+                        
+                        lengthReq.className = 'requirement';
+                        upperReq.className = 'requirement';
+                        lowerReq.className = 'requirement';
+                        numberReq.className = 'requirement';
+                        specialReq.className = 'requirement';
+                    } catch (error) {
+                        alert('Error during password reset: ' + error.message);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
