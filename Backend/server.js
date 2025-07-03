@@ -24,11 +24,11 @@ const pool = new Pool({
 
 const allowedOrigins = [
   'http://127.0.0.1:5500',
-  'http://16.171.144.225:3083',
-  'http://16.171.144.225:8290', // ✅ Add the Login frontend origin
-  'http://16.171.144.225:8291', // ✅ Optionally, add Dashboard or others too
-  'http://16.171.144.225:8292',
-  'http://16.171.144.225:8293'
+  'http://13.60.202.1:3083',
+  'http://13.60.202.1:8290', // ✅ Add the Login frontend origin
+  'http://13.60.202.1:8291', // ✅ Optionally, add Dashboard or others too
+  'http://13.60.202.1:8292',
+  'http://13.60.202.1:8293'
 ];
 
 app.use(cors({
@@ -324,7 +324,7 @@ app.get('/api/protected', authenticateToken, (req, res) => {
 
 initDatabase().then(() => {
   app.listen(port, () => {
-    console.log(`Server running on http://16.171.144.225:${port}`);
+    console.log(`Server running on http://13.60.202.1:${port}`);
     console.log('Available routes:');
     console.log('GET  /                 -> Login page');
     console.log('GET  /signup           -> Signup page');

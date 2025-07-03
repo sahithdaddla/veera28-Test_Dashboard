@@ -769,7 +769,7 @@
           // Fetch user data from server
           async function fetchUserData() {
               try {
-                  const response = await fetch('http://16.171.144.225:3083/api/user', {
+                  const response = await fetch('http://13.60.202.1:3083/api/user', {
                       method: 'GET',
                       credentials: 'include'
                   });
@@ -926,7 +926,7 @@
           // Logout handling
           async function logout() {
               try {
-                  await fetch('http://16.171.144.225:3083/api/logout', {
+                  await fetch('http://13.60.202.1:3083/api/logout', {
                       method: 'POST',
                       credentials: 'include'
                   });
