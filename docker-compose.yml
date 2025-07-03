@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: postgres-db
+    ports:
+      - "5510:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: login
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build: ./Backend
+    container_name: backend-app
+    ports:
+      - "3083:3083"
+    environment:
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: admin123
+      DB_DATABASE: login
+      DB_PORT: 5432
+    depends_on:
+      - postgres
+
+  dashboard:
+    build: ./Dashboard
+    container_name: dashboard-app
+    ports:
+      - "8290:80"
+    depends_on:
+      - backend
+
+  forgot_password:
+    build: ./Forgot_password
+    container_name: forgot-password-app
+    ports:
+      - "8291:80"
+    depends_on:
+      - backend
+
+  login:
+    build: ./Login
+    container_name: login-app
+    ports:
+      - "8292:80"
+    depends_on:
+      - backend
+
+  sign:
+    build: ./Sign
+    container_name: sign-app
+    ports:
+      - "8293:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+
